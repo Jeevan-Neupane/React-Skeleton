@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import SkeletonUser from "../Skeleton/SkeletonUser";
 
 function User() {
   const [profile, setProfile] = useState(null);
@@ -11,13 +12,20 @@ function User() {
         setProfile(data);
      
 
-    },5000)
+    },10000)
+  })
+
+
+  const skeleton=Array(5).fill(0).map((_,index)=>{
+    return (
+      <SkeletonUser key={index} theme='dark'/>
+    )
   })
   return (
     <div className="user">
       <h2>User Profile</h2>
 
-       {!profile && <p>Please Wait Its Loading ...</p>}
+       {!profile && skeleton}
       {profile && (
         
         <div className="profile">

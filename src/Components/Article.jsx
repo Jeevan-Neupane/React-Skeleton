@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import SkeletonElement from "../Skeleton/SkeletonElement";
+import SkeletonArticle from "../Skeleton/SkeletonArticle";
 
 
 
@@ -7,6 +8,7 @@ import SkeletonElement from "../Skeleton/SkeletonElement";
 
 function Article() {
   const [articles, setArticle] = useState([]);
+  const [loading,setLoading]=useState(true)
 
 
   useEffect(() => {
@@ -14,7 +16,8 @@ function Article() {
       const res = await fetch("https://jsonplaceholder.typicode.com/posts");
       const data = await res.json(); //&Converts to JS Object
       setArticle(data);
-    }, 5000);
+      setLoading(false);
+    }, 10000);
   });
 
 
@@ -27,21 +30,23 @@ function Article() {
         </div>
     )
   })
+  const Loading=Array(5).fill(0).map((_,index)=>{
+    return (
+      <SkeletonArticle key={index} theme='dark'/>
+    )
+  })
 
   return (
     <div className="articles">
         
       <h2>Articles</h2>
 
-      <SkeletonElement type={'title'}/>
-      <SkeletonElement type={'text'}/>
-      <SkeletonElement type={'avatar'}/>
-      <SkeletonElement type={'thumbnail'}/>
+      
       {articles && renderedArticle}
 
      
 
-      {articles && <p>Please Wait Its Loading ...</p>}
+      {loading && Loading}
     </div>
   );
 }
